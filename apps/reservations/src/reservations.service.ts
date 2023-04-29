@@ -1,8 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
+import { CreateReservationDto } from './dto/create-reservation.dto';
+import { UpdateReservationDto } from './dto/update-reservation.dto';
+import { ReservationsRepository } from './reservations.repository';
 
 @Injectable()
 export class ReservationsService {
-  getHello(): string {
-    return 'Hello World!';
+  constructor(
+    private readonly reservationsRepository: ReservationsRepository,
+  ) { }
+
+  create(createReservationDto: CreateReservationDto) {
+    return this.reservationsRepository.create({
+      ...createReservationDto,
+      userId: '123',
+      timestamp: new Date(),
+    });
+  }
+
+  findAll() {
+    return this.reservationsRepository.find({});
+  }
+
+  findOne(_id: string) {
+    return this.reservationsRepository.findOne({ _id });
+  }
+
+  update(_id: string, updateReservationDto: UpdateReservationDto) {
+    return this.reservationsRepository.findOneAndUpdate(
+      { _id },
+      { $set: updateReservationDto },
+    );
+  }
+
+  remove(_id: string) {
+    try {
+      return this.reservationsRepository.findOneAndDelete({ _id });
+    } catch (error) {
+      Logger.error(error);
+      throw new BadRequestException('Something bad happened', {
+        cause: new Error(),
+        description: 'Some error description',
+      });
+    }
   }
 }

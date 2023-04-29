@@ -1,0 +1,13 @@
+services:
+  reservations:
+    container_name: reservations
+    build:
+      context: .
+      dockerfile: ./apps/reservations/Dockerfile
+      # target: development
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: pnpm run start:dev

@@ -1,0 +1,64 @@
+@hostname = localhost
+@port = 3000
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+@createdAt = {{$datetime iso8601}}
+@modifiedBy = {{$processEnv USERNAME}}
+@_id = {{$guid}}.toString()
+
+# Create reservation
+###
+POST http://{{host}}/reservations HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "startDate": "04/28/2023",
+  "endDate": "04/30/2023",
+  "placeId": "1",
+  "invoiceId": "34522"
+}
+###
+
+# @name getAllReservations
+GET http://{{host}}/reservations HTTP/1.1
+Content-Type: {{contentType}}
+###
+
+# Get one reservation
+@reservationId = {{getAllReservations.response.body.$.[0]._id}}
+GET http://{{host}}/reservations/{{reservationId}} HTTP/1.1
+Content-Type: {{contentType}} 
+###
+
+# Update the first one
+PATCH http://{{host}}/reservations/{{reservationId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "startDate": "04/28/2023",
+  "endDate": "04/30/2023",
+  "placeId": "Changed",
+  "invoiceId": "34522"
+}
+###
+
+# Delete the second one
+@reservationId = {{getAllReservations.response.body.$.[1]._id}}
+DELETE http://{{host}}/reservations/{{reservationId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+###
+# Send an request that will result in an error
+GET http://{{host}}/reservations/3434r3 HTTP/1.1
+Content-Type: {{contentType}} 
+###
+
+# Error in post
+POST http://{{host}}/reservations HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "startDate": 123
+}  
+
+###
