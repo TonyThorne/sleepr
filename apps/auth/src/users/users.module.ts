@@ -3,6 +3,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { DatabaseModule } from '@app/common';
 import { UserDocument, UserSchema } from './models/user.schema';
+import { UserRespository } from './users.repository';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { UserDocument, UserSchema } from './models/user.schema';
     ]),
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, UserRespository],
 })
 export class UsersModule { }
