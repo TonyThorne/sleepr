@@ -5,6 +5,7 @@ import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) { }
+  // console.log('users.controller.ts');
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
