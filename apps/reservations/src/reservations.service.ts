@@ -37,10 +37,6 @@ export class ReservationsService {
       return this.reservationsRepository.findOneAndDelete({ _id });
     } catch (error) {
       Logger.error(error);
-      throw new BadRequestException('Something bad happened', {
-        cause: new Error(),
-        description: 'Some error description',
-      });
     }
   }
 }
