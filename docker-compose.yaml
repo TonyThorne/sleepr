@@ -1,5 +1,6 @@
 services:
   reservations:
+    container_name: Reservations
     build:
       context: .
       dockerfile: ./apps/reservations/Dockerfile
@@ -13,6 +14,7 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
   auth:
+    container_name: Auth
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile

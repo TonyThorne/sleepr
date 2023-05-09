@@ -14,7 +14,7 @@ import { UpdateReservationDto } from './dto/update-reservation.dto';
 
 
 @Controller('reservations')
-// change to test hot reload!
+// change to test hot reload!!
 export class ReservationsController {
   constructor(private readonly reservationsService: ReservationsService) { }
 
@@ -31,6 +31,7 @@ export class ReservationsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    return `This action returns a #${id} reservation`
     return this.reservationsService.findOne(id);
   }
 
